@@ -48,7 +48,9 @@ class _NewExpenseState extends State<NewExpense> {
                   maxLength: 50,
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
+                    prefixText: "\$",
                     label: Text('Amount'),
+
                   ),
                 ),
               ),
