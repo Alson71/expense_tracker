@@ -54,6 +54,7 @@ class _NewExpenseState extends State<NewExpense> {
         category: _selectedCategory
       ),
     );
+    Navigator.pop(context);
   }
 
   void _presentDatePicker() async {
@@ -72,7 +73,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16,48,16,48),
       child: Column(
         children: [
           Row(
@@ -151,6 +152,8 @@ class _NewExpenseState extends State<NewExpense> {
                   print("Title: ${_titleController.text}");
                   print("Amount: ${_amountController.text}");
                   _submitExpenseData();
+                  
+                  
                 },
                 child: Text('Save Expense'),
               ),
