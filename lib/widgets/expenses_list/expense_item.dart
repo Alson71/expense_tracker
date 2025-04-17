@@ -7,10 +7,10 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const categoryIcons = {
-      Category.food: Icons.lunch_dining,
-      Category.travel: Icons.flight_takeoff,
-      Category.leisure: Icons.movie,
-      Category.work: Icons.work
+      Category.FOOD: Icons.lunch_dining,
+      Category.TRAVEL: Icons.flight_takeoff,
+      Category.LEISURE: Icons.movie,
+      Category.WORK: Icons.work
     };
     return Card(
       child: Padding(
