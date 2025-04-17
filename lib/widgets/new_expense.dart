@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -16,12 +17,43 @@ class _NewExpenseState extends State<NewExpense> {
   final _amountController = TextEditingController();
   final formatter = DateFormat.yMd();
   DateTime? _selectedDate;
-  Category _selectedCategory = Category.leisure;
+  Category _selectedCategory = Category.LEISURE;
   @override
   void dispose() {
     _titleController.dispose();
     _amountController.dispose();
     super.dispose();
+  }
+
+  void _submitExpenseData(){
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount==null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null)
+    {
+      showDialog(context:context, builder: (ctx)=>
+        AlertDialog(
+          title: const Text('Invalid Input!'),
+          content: const Text('Please make sure valid title, amount, date were entered!'),
+          actions: [
+            TextButton(
+              onPressed: (){
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        )
+      );
+      return;  
+    }
+    widget.onAddExpense(
+      Expense(
+        title: _titleController.text, 
+        amount: enteredAmount,
+        date: _selectedDate!, 
+        category: _selectedCategory
+      ),
+    );
   }
 
   void _presentDatePicker() async {
@@ -107,6 +139,7 @@ class _NewExpenseState extends State<NewExpense> {
                       _selectedCategory = value;
                     });
                   }),
+                  Spacer(),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -117,6 +150,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   print("Title: ${_titleController.text}");
                   print("Amount: ${_amountController.text}");
+                  _submitExpenseData();
                 },
                 child: Text('Save Expense'),
               ),

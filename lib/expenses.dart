@@ -17,8 +17,14 @@ class _ExpensesState extends State<Expenses> {
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => NewExpense(),
+      builder: (ctx) => NewExpense(onAddExpense: _addExpense),
     );
+  }
+
+   void _addExpense(Expense expense){
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
   }
 
   final List<Expense> _registeredExpenses = [
@@ -26,12 +32,12 @@ class _ExpensesState extends State<Expenses> {
         title: 'Cheeseburger',
         amount: 11.99,
         date: DateTime.now(),
-        category: Category.food),
+        category: Category.FOOD),
     Expense(
         title: 'Movie Ticket',
         amount: 18.99,
         date: DateTime.now(),
-        category: Category.leisure),
+        category: Category.LEISURE),
   ];
   @override
   Widget build(BuildContext context) {
